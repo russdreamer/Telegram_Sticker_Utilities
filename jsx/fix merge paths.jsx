@@ -1,0 +1,71 @@
+fixMergePaths();
+
+function fixMergePaths() {
+	var duplicatedLayers;
+	try {
+		var selectedLayers = app.project.activeItem.selectedLayers;
+		if (selectedLayers.length > 0) {
+			duplicatedLayers = duplicateLayers(selectedLayers);
+	 		for (var i = 0; i < selectedLayers.length; i++) {
+				removeMPAndGroups( selectedLayers[i].property("Contents") );
+			}
+			renameAndDisableayers(duplicatedLayers);
+			alert("Well done!");
+		} else {
+			alert("At least 1 layer must be sellected.");
+		}
+	} catch(err) {
+		rollback(selectedLayers);
+		alert("Something went wrong. Try to follow the script's instruction. Error: " + err.message);
+	}
+}
+
+function renameAndDisableayers(layers) {
+	for (var i = 0; i < layers.length; i++) {
+		layers[i].name += " original";
+		layers[i].enabled = false;
+	}
+}
+
+function duplicateLayers(layers) {
+	var duplicatedLayers = [];
+	for (var i = 0; i < layers.length; i++) {
+		var el = layers[i].duplicate();
+		el.name = layers[i].name;
+		duplicatedLayers.push(el);
+	}
+	return duplicatedLayers;
+}
+
+function rollback(selectedLayers) {
+	if (selectedLayers != null) {
+		for (var i = selectedLayers.length - 1; i >= 0; i--) {
+			for (var k = 1; k <= selectedLayers[i].containingComp.numLayers; k++) {
+				var el = selectedLayers[i].containingComp.layer(k);
+				if ( el.parent == selectedLayers[i] ) {
+					el.parent = selectedLayers[i].containingComp.layer(selectedLayers[i].index - 1);
+				}
+			}
+			selectedLayers[i].remove();
+		}
+	}
+}
+
+function removeMPAndGroups(group) {
+	var childsNum = group.numProperties;
+	for (var i = 1; i <= childsNum; i++) {
+		if (group.property(i).matchName == "ADBE Vector Group") {
+			removeMPAndGroups( group.property(i).property("Contents") );
+		} else if (group.property(i).matchName == "ADBE Vector Filter - Merge") {
+			group.property(i).remove();
+			i--;
+			childsNum--;
+			var mergeGroup = group.property("Group 1");
+			if (mergeGroup != null) {
+				mergeGroup.remove();
+				i--;
+				childsNum--;
+			}
+		}
+	}
+}

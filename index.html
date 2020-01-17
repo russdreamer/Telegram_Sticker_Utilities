@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="css/styles.css"/>
+
+	<title>Telegram Sticker Utils</title>
+
+<script type="text/javascript">
+
+window.onload = function(e){ 
+var version = "1.0.0";
+var releaseURL = "https://github.com/russdreamer/Telegram_Sticker_Utilities/releases/latest";
+document.getElementById("version").textContent = version;
+
+var tooltip = document.getElementById("tooltip");
+var handler = function(event) {
+    	event.preventDefault();
+    
+        var mousePosition = {
+            	x : event.clientX,
+            	y : event.clientY
+	};
+        tooltip.style.left = (mousePosition.x + 10) + 'px';
+        tooltip.style.top  = (mousePosition.y + 10) + 'px';
+};
+ 
+document.getElementById("outline").addEventListener("mouseover", mouseoverHandler);
+document.getElementById("outline").addEventListener("mouseout", mouseoutHandler);
+
+document.getElementById("optimize").addEventListener("mouseover", mouseoverHandler);
+document.getElementById("optimize").addEventListener("mouseout", mouseoutHandler);
+
+document.getElementById("clear_merge_paths").addEventListener("mouseover", mouseoverHandler);
+document.getElementById("clear_merge_paths").addEventListener("mouseout", mouseoutHandler);
+
+document.getElementById("fix_merge_paths").addEventListener("mouseover", mouseoverHandler);
+document.getElementById("fix_merge_paths").addEventListener("mouseout", mouseoutHandler);
+
+function mouseoverHandler(ev){
+	var text = ev.target.parentElement.getElementsByClassName("tooltip_text")[0].textContent;
+	tooltip.textContent = text;
+	tooltip.style.display = "block";
+	document.addEventListener('mousemove', handler);
+}
+
+function mouseoutHandler(ev){
+	tooltip.textContent = "";
+	tooltip.style.display = "none"
+	document.removeEventListener('mousemove', handler);
+}
+
+httpGetAsync(releaseURL);
+
+function httpGetAsync(theUrl) {
+	var xmlHttp = new XMLHttpRequest();
+	var op = "!";
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+		var lastVersion = xmlHttp.responseURL.split("/").pop();
+		if (lastVersion != "v" + version) {
+			document.getElementById("update_block").style.display = "block";
+		}
+	}
+    }
+    xmlHttp.open("GET", theUrl, true);
+    xmlHttp.send(null);
+}
+
+var csInterface = new CSInterface();
+document.getElementById('update').addEventListener('click', function() {
+ 	csInterface.openURLInDefaultBrowser(releaseURL);
+ });
+
+}
+
+</script>
+</head>
+<body bgcolor="#E6E6FA">
+version: <span id="version"></span> 
+</br>
+<div id="update_block" style="display: none;">
+<input id="update" type="button" value="update">
+</div>
+<div style="float: left;padding: 5px">
+	<button id="outline"><img class="btn-image" src="assets/outline.png"/>
+	<span class="tooltip_text">Optimize the selected stroke as outline to the single group</span></button>
+</div>
+<div style="padding: 5px">
+	<button id="optimize"><img class="btn-image" src="assets/optimize.png"/>
+	<span class="tooltip_text">Deep optimize all strokes of the selected layers</span></button>
+</div>
+<div style="float: left;padding-right: 5px; padding-left: 5px">
+	<button id="clear_merge_paths"><img class="btn-image" src="assets/clear_merge_paths.png"/>
+	<span class="tooltip_text">Clear all Merge Paths of the selected layers</span></button>
+</div>
+<div style="padding-right: 5px; ">
+	<button id="fix_merge_paths"><img class="btn-image" src="assets/fix_merge_paths.png"/>
+	<span class="tooltip_text">Fix selected layers' "Merge Paths" issue after importing .ai file. Works if Merge Paths weren't cleared yet</span></button>
+</div> 
+<div id="tooltip" class="tooltip"></div>
+
+<script src="js/libs/CSInterface.js"></script>
+<script src="js/main.js"></script>
+	
+</body>
+</html>

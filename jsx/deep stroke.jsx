@@ -1,13 +1,16 @@
 deepStroke();
 
 function deepStroke() {
-	var selectedLayers = app.project.activeItem.selectedLayers;
+	var selectedLayers;
 	var duplicatedLayers;
 
 	try {
-		if (selectedLayers.length < 1) {
+		if (app.project.activeItem == null 
+		|| app.project.activeItem.selectedLayers == null 
+		|| app.project.activeItem.selectedLayers.length < 1) {
 			alert("Select 1 or more layers to be optimized");
 		} else {
+			selectedLayers = app.project.activeItem.selectedLayers;
 			duplicatedLayers = duplicateLayers(selectedLayers);
 
 			for (var i = 0; i < selectedLayers.length; i++) {

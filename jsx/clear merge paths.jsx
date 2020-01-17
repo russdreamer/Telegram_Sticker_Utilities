@@ -3,8 +3,11 @@ clearMergePaths();
 function clearMergePaths() {
 	var duplicatedLayers;
 	try {
-		var selectedLayers = app.project.activeItem.selectedLayers;
-		if (selectedLayers.length > 0) {
+		var selectedLayers;
+		if (app.project.activeItem != null 
+		&& app.project.activeItem.selectedLayers != null 
+		&& app.project.activeItem.selectedLayers.length > 0) {
+			selectedLayers = app.project.activeItem.selectedLayers;
 			duplicatedLayers = duplicateLayers(selectedLayers);
 	 		for (var i = 0; i < selectedLayers.length; i++) {
 				removeMerhePaths( selectedLayers[i].property("Contents") );

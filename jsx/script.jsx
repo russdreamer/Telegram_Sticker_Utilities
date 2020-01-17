@@ -1,8 +1,11 @@
 function clearMergePaths() {
 	var duplicatedLayers;
 	try {
-		var selectedLayers = app.project.activeItem.selectedLayers;
-		if (selectedLayers.length > 0) {
+		var selectedLayers;
+		if (app.project.activeItem != null 
+		&& app.project.activeItem.selectedLayers != null 
+		&& app.project.activeItem.selectedLayers.length > 0) {
+			selectedLayers = app.project.activeItem.selectedLayers;
 			duplicatedLayers = duplicateLayers(selectedLayers);
 	 		for (var i = 0; i < selectedLayers.length; i++) {
 				removeMerhePaths( selectedLayers[i].property("Contents") );
@@ -37,8 +40,11 @@ function removeMerhePaths(group) {
 function fixMergePaths() {
 	var duplicatedLayers;
 	try {
-		var selectedLayers = app.project.activeItem.selectedLayers;
-		if (selectedLayers.length > 0) {
+		var selectedLayers;
+		if (app.project.activeItem != null 
+		&& app.project.activeItem.selectedLayers != null 
+		&& app.project.activeItem.selectedLayers.length > 0) {
+			selectedLayers = app.project.activeItem.selectedLayers;
 			duplicatedLayers = duplicateLayers(selectedLayers);
 	 		for (var i = 0; i < selectedLayers.length; i++) {
 				removeMPAndGroups( selectedLayers[i].property("Contents") );
@@ -77,13 +83,16 @@ function removeMPAndGroups(group) {
 
 
 function deepStroke() {
-	var selectedLayers = app.project.activeItem.selectedLayers;
+	var selectedLayers;
 	var duplicatedLayers;
 
 	try {
-		if (selectedLayers.length < 1) {
+		if (app.project.activeItem == null 
+		|| app.project.activeItem.selectedLayers == null 
+		|| app.project.activeItem.selectedLayers.length < 1) {
 			alert("Select 1 or more layers to be optimized");
 		} else {
+			selectedLayers = app.project.activeItem.selectedLayers;
 			duplicatedLayers = duplicateLayers(selectedLayers);
 
 			for (var i = 0; i < selectedLayers.length; i++) {
@@ -146,15 +155,18 @@ function optimizeStrokes(contents) {
 
 
 function outline() {
-	var selectedLayers = app.project.activeItem.selectedLayers;
+	var selectedLayers;
 	var duplicatedLayers;
 
 	try {
-		if (selectedLayers.length != 1 
-		|| selectedLayers[0].selectedProperties.length != 1 
-		|| selectedLayers[0].selectedProperties[0].matchName != "ADBE Vector Graphic - Stroke") {
+		if (app.project.activeItem == null 
+		|| app.project.activeItem.selectedLayers == null 
+		|| app.project.activeItem.selectedLayers.length != 1
+		|| app.project.activeItem.selectedLayers[0].selectedProperties.length != 1
+		|| app.project.activeItem.selectedLayers[0].selectedProperties[0].matchName != "ADBE Vector Graphic - Stroke") {
 			alert("Select 1 stroke to be outlined");
 		} else {
+			selectedLayers = app.project.activeItem.selectedLayers;
 			duplicatedLayers = duplicateLayers(selectedLayers);
 			var stroke = selectedLayers[0].selectedProperties[0];
 			makeOutline(stroke);

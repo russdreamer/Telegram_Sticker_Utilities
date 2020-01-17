@@ -1,15 +1,18 @@
 outline();
 
 function outline() {
-	var selectedLayers = app.project.activeItem.selectedLayers;
+	var selectedLayers;
 	var duplicatedLayers;
 
 	try {
-		if (selectedLayers.length != 1 
-		|| selectedLayers[0].selectedProperties.length != 1 
-		|| selectedLayers[0].selectedProperties[0].matchName != "ADBE Vector Graphic - Stroke") {
+		if (app.project.activeItem == null 
+		|| app.project.activeItem.selectedLayers == null 
+		|| app.project.activeItem.selectedLayers.length != 1
+		|| app.project.activeItem.selectedLayers[0].selectedProperties.length != 1
+		|| app.project.activeItem.selectedLayers[0].selectedProperties[0].matchName != "ADBE Vector Graphic - Stroke") {
 			alert("Select 1 stroke to be outlined");
 		} else {
+			selectedLayers = app.project.activeItem.selectedLayers;
 			duplicatedLayers = duplicateLayers(selectedLayers);
 			var stroke = selectedLayers[0].selectedProperties[0];
 			makeOutline(stroke);

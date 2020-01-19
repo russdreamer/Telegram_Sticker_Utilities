@@ -15,7 +15,7 @@ To solve those problem you can use this plug-in. It does lots of optimizations.
 Also if you import .AI file from Adobe Illustrator you probably face with a problem of auto-generated "Merge Paths" which is not supported in Telegram.
 It takes some time to find all Merge Paths, remove it and fix groups related to that "Merge Paths" effect. This plug-in provides Merge Paths' removing and fixing with a single click.
 
-You can also watch tutorial: 
+You can also watch tutorial: https://youtu.be/oMS3YZED4mI
 </p></details>
 
 <details><summary>Описание на русском</summary><p>
@@ -28,5 +28,5 @@ You can also watch tutorial:
 Также, если вы импортируете файл .AI из Adobe Illustrator, вы, вероятно, столкнетесь с проблемой автоматически генерируемых «Merge Paths», которые не поддерживаются в Telegram. Из-за этого после рендера вы увидите кучу артефактов, которых не было при анимации.
 Требуется время, чтобы найти все Merge Paths, удалить их и исправить группы, связанные с этим эффектом. Данный плагин обеспечивает безболезненное удаление и исправление Merge Paths одним кликом мыши.
 
-Вы можете ознакомиться с уроком по этому плагину:
+Вы можете ознакомиться с уроком по этому плагину: https://youtu.be/oMS3YZED4mI
 </p></details>
